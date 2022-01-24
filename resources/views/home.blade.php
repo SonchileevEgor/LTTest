@@ -3,18 +3,23 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
+                <div class="card-header">{{ __('New request') }}</div>
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    <label for="message">Write a message or question here</label>
+                    <br>
+                    <input type="text" class="form-control" name="message">
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn-success">Send request</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">{{ __('Your requests') }}</div>
+                <div class="card-body">
                 </div>
             </div>
         </div>
