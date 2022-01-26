@@ -61,6 +61,14 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label for="admin" class="col-md-4 form-check-label text-md-end">{{ __('Mark this account as Admin') }}</label>
+
+                            <div class="col-md-6">
+                                <input type="checkbox" class="form-check-input" name="admin">
+                            </div>
+                        </div>
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

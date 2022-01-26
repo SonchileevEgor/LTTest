@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
     public function create($request)
     {
-
+        $fb = new Request();
+        $fb->user_id = Auth::user()->id;
+        $fb->message = $request->get('message');
+        $fb->save();
     }
     public function list()
     {
@@ -18,14 +22,12 @@ class RequestController extends Controller
         return view('home', $viewDependencies);
     }
 
-//    public function save()
-//    {
-//
-//    }
-
     public function update($request)
     {
-        $req = Request::findOrFail($request->id);
+        $fb = Request::findOrFail($request->id);
+        $fb->user_id = Auth::user()->id;
+        $fb->message = $request->get('message');
+        $fb->save();
     }
 
     public function delete($id)

@@ -2,17 +2,76 @@
 
 @section('content')
 <div class="container">
+    @if(Auth::user()->is_admin)
+        <div class="row justify-content-center">
+            <h1>Admin panel</h1>
+        </div>
+        <div class="row justify-content-center">
+            <div class="card">
+                <div class="card-header">{{ __('Requests') }}</div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @foreach($listRequests as $req)
+                            <ui class="list-group-item">{{$req}}</ui>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    @else
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">{{ __('New request') }}</div>
                 <div class="card-body">
-                    <label for="message">Write a message or question here</label>
-                    <br>
-                    <input type="text" class="form-control" name="message">
+                    <form name="request-message" action="/">
+                        @csrf
+
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('E-Mail') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="phone" class="col-md-4 col-form-label text-md-end">{{ __('Phone number') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" required>
+
+                                @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="btn-success">Send request</a>
+                    <button type="submit" form="request-message" class="btn btn-primary btn-lg active">Submit</button>
                 </div>
             </div>
         </div>
@@ -24,5 +83,6 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 @endsection
