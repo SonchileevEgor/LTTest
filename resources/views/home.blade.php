@@ -12,7 +12,12 @@
                 <div class="card-body">
                     <ul class="list-group">
                         @foreach($listRequests as $req)
-                            <ui class="list-group-item">{{$req}}</ui>
+                            <ul class="list-group">
+                                <ui class="list-group-item">{{$req['name'] . ''}}</ui>
+                                <ui class="list-group-item">{{$req['email']}}</ui>
+                                <ui class="list-group-item">{{$req['phone']}}</ui>
+                            </ul>
+                            <hr>
                         @endforeach
                     </ul>
                 </div>
@@ -20,13 +25,17 @@
         </div>
     @else
     <div class="row justify-content-center">
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">{{ __('New request') }}</div>
                 <div class="card-body">
-                    <form name="request-message" action="/">
+                    <form name="request-message" id="request-message" method="post" action="{{url('send-request')}}">
                         @csrf
-
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
@@ -68,10 +77,17 @@
                                 @enderror
                             </div>
                         </div>
+
+                        <div class="row mb-3">
+                            <label for="message" class="col-md-4 col-form-label text-md-end">{{ __('Message') }}</label>
+                            <div class="col-md-6">
+                                <textarea class="form-control" name="message"></textarea>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" form="request-message" class="btn btn-primary btn-lg active">Submit</button>
+                    <button type="submit" form="request-message" class="btn btn-primary btn-lg active form-control">Submit</button>
                 </div>
             </div>
         </div>
@@ -79,6 +95,16 @@
             <div class="card">
                 <div class="card-header">{{ __('Your requests') }}</div>
                 <div class="card-body">
+                    <ul class="list-group">
+                        @foreach($listRequests as $req)
+                            <ul class="list-group">
+                                <ui class="list-group-item">{{$req['name'] . ''}}</ui>
+                                <ui class="list-group-item">{{$req['email']}}</ui>
+                                <ui class="list-group-item">{{$req['phone']}}</ui>
+                            </ul>
+                            <hr>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>

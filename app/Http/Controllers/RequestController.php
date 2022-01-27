@@ -7,12 +7,16 @@ use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
-    public function create($request)
+    public function create(Request $request)
     {
-        $fb = new Request();
+        $fb = new \App\Models\Request();
         $fb->user_id = Auth::user()->id;
+        $fb->name = $request->get('name');
+        $fb->email = $request->get('email');
+        $fb->phone = $request->get('phone');
         $fb->message = $request->get('message');
         $fb->save();
+        return redirect()->back()->with('message', 'Request has been send successfully!');
     }
     public function list()
     {
