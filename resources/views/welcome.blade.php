@@ -38,9 +38,9 @@
 
             @auth
                 @if(Auth::user()->is_admin)
-                        <h1>Go to home to view admin panel.</h1>
+                        <h1>Go to <a href="{{url('home')}}" class="underline">home</a> to view admin panel.</h1>
                 @else
-                        <h1>Go to home to send or list requests.</h1>
+                        <h1>Go to <a href="{{url('home')}}" class="underline">home</a> to send or list requests.</h1>
                 @endif
             @else
                 <h1>Please, login or register to submit a feedback request.</h1>
