@@ -3,23 +3,48 @@
 @section('content')
 <div class="container">
     @if(Auth::user()->is_admin)
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
+        @if($errors->any())
+            <h4>{{$errors->first()}}</h4>
+        @endif
         <div class="row justify-content-center">
-            <h1>Admin panel</h1>
+            <h1>Admin dashboard</h1>
+            <hr>
         </div>
         <div class="row justify-content-center">
             <div class="card">
-                <div class="card-header">{{ __('Requests') }}</div>
+                <div class="card-header row">
+                    <h3 class="col">{{ __('Requests') }}</h3>
+                    <a href="{{url('add-request')}}" class="btn btn-success float-end col-1">Add new</a>
+                </div>
                 <div class="card-body">
-                    <ul class="list-group">
-                        @foreach($listRequests as $req)
-                            <ul class="list-group">
-                                <ui class="list-group-item">{{$req['name'] . ''}}</ui>
-                                <ui class="list-group-item">{{$req['email']}}</ui>
-                                <ui class="list-group-item">{{$req['phone']}}</ui>
-                            </ul>
-                            <hr>
-                        @endforeach
-                    </ul>
+                    @foreach($listRequests as $req)
+                        <h4 class="form-label"><b>User #</b>{{$req->user_id}} left this request:</h4>
+                        <ul class="list-group">
+                            <ui class="list-group-item"><b>Name:</b> {{$req['name'] . ''}} </ui>
+                            <ui class="list-group-item"><b>Email:</b> {{$req['email']}} </ui>
+                            <ui class="list-group-item"><b>Phone:</b> {{$req['phone']}} </ui>
+                            <ui class="list-group-item"><b>Message:</b>
+                                @if (!empty($req['message']))
+                                    {{$req['message']}}
+                                @endif
+                            </ui>
+                        </ul>
+                    <br>
+                    <div class="row">
+                        <div class="col-1">
+                            <a href="{{url('delete-request/' . $req->id)}}" class="btn btn-danger">Delete</a>
+                        </div>
+                        <div class="col-1">
+                            <a href="{{url('update-request/' . $req->id)}}" class="btn btn-outline-warning">Update</a>
+                        </div>
+                    </div>
+                    <hr>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -29,6 +54,9 @@
             <div class="alert alert-success">
                 {{ session()->get('message') }}
             </div>
+        @endif
+        @if($errors->any())
+            <h4>{{$errors->first()}}</h4>
         @endif
         <div class="col-md-6">
             <div class="card">
@@ -95,16 +123,19 @@
             <div class="card">
                 <div class="card-header">{{ __('Your requests') }}</div>
                 <div class="card-body">
-                    <ul class="list-group">
-                        @foreach($listRequests as $req)
-                            <ul class="list-group">
-                                <ui class="list-group-item">{{$req['name'] . ''}}</ui>
-                                <ui class="list-group-item">{{$req['email']}}</ui>
-                                <ui class="list-group-item">{{$req['phone']}}</ui>
-                            </ul>
-                            <hr>
-                        @endforeach
-                    </ul>
+                    @foreach($listRequests as $req)
+                        <ul class="list-group">
+                            <ui class="list-group-item"><b>Name:</b> {{$req['name'] . ''}} </ui>
+                            <ui class="list-group-item"><b>Email:</b> {{$req['email']}} </ui>
+                            <ui class="list-group-item"><b>Phone:</b> {{$req['phone']}} </ui>
+                            <ui class="list-group-item"><b>Message:</b>
+                            @if (!empty($req['message']))
+                                {{$req['message']}}
+                            @endif
+                            </ui>
+                        </ul>
+                        <hr>
+                    @endforeach
                 </div>
             </div>
         </div>

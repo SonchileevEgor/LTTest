@@ -23,7 +23,6 @@ class HomeController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['required', 'phone', 'regex:/(01)[0-9]{9}/'],
         ]);
     }
     /**
@@ -33,9 +32,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $reqs = \App\Models\Request::where('user_id', '=', Auth::user()->id)->get();
+        $reqs = \App\Models\Request::where('user_id', '=', Auth::user()->id)->orderby('id', 'desc')->get();
         if (Auth::user()->is_admin)
-            $reqs = \App\Models\Request::all();
+            $reqs = \App\Models\Request::orderby('id', 'desc')->get();
 
         $viewDependencies = [
             'listRequests' => $reqs
